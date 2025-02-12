@@ -17,7 +17,7 @@ export async function initializeDatabase() {
     try {
         const connection = await db.getConnection();
         await connection.query(`
-      CREATE TABLE IF NOT EXISTS abcd (
+      CREATE TABLE IF NOT EXISTS abcdef (
         id INT AUTO_INCREMENT PRIMARY KEY,
         phoneNumber VARCHAR(20) NULL,
         email VARCHAR(255) NULL,

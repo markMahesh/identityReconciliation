@@ -9,14 +9,12 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middleware
 app.use(bodyParser.json());
 app.get('/', (req: Request, res: Response) => {
   res.send('Hello, world!');
 });
-app.use('/api/v1/identify', identifyRouter);
+app.use('/identify', identifyRouter);
 
-// Initialize Database and Start Server
 initializeDatabase()
   .then(() => {
     app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
