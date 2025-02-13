@@ -20,8 +20,8 @@ export class UserService {
     }
     else {
       let primaryId = -1;
-      let isEmailFound: boolean = false;
-      let isPhoneNumberFound: boolean = false;
+      let isEmailFound: boolean = (email)? false : true;
+      let isPhoneNumberFound: boolean = (phoneNumber) ? false : true;
       const primaryIdsSet: Set<number> = new Set();
       let primaryContact: IUser;
       const primaryContacts: IUser[] = linkedContacts.filter(contact => {
@@ -54,8 +54,10 @@ export class UserService {
       else if (primaryContact2.length == 1) {
         primaryId = primaryContact2[0].id;
         primaryContact = primaryContact2[0];
-        if (isEmailFound == false || isPhoneNumberFound == false) // new information
+        if (isEmailFound == false || isPhoneNumberFound == false){ // new information
+          console.log(isEmailFound, isPhoneNumberFound);
           await UserModel.createUser(phoneNumber, email, primaryContact2[0].id, LinkedPrecedence.SECONDRAY);
+        }
       }
       else {
         /*
