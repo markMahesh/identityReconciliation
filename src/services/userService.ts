@@ -1,9 +1,9 @@
-import { IUser, LinkedPrecedence, UserModel } from '../models/userModel';
+import { IContact, LinkedPrecedence, UserModel } from '../models/userModel';
 import { IdentifyUserResp } from '../dto/res/identifyUserResp';
 
 export class UserService {
   static async identifyUser(phoneNumber?: string, email?: string): Promise<IdentifyUserResp> {
-    const linkedContacts: IUser[] = await UserModel.findAllMatchingContacts(phoneNumber, email);
+    const linkedContacts: IContact[] = await UserModel.findAllMatchingContacts(phoneNumber, email);
     console.log('linkedContacts: ', linkedContacts);
     let resp: IdentifyUserResp;
     if (linkedContacts.length == 0) {
@@ -23,8 +23,8 @@ export class UserService {
       let isEmailFound: boolean = (email)? false : true;
       let isPhoneNumberFound: boolean = (phoneNumber) ? false : true;
       const primaryIdsSet: Set<number> = new Set();
-      let primaryContact: IUser;
-      const primaryContacts: IUser[] = linkedContacts.filter(contact => {
+      let primaryContact: IContact;
+      const primaryContacts: IContact[] = linkedContacts.filter(contact => {
         if (isEmailFound == false && contact.email != null && email != null && contact.email === email)
           isEmailFound = true;
         if (isPhoneNumberFound == false && contact.phoneNumber != null && phoneNumber != null && contact.phoneNumber === phoneNumber)
@@ -35,7 +35,7 @@ export class UserService {
           primaryIdsSet.add(contact.linkedId);
         return contact.linkPrecedence === LinkedPrecedence.PRIMARY
       });
-      const primaryContact2: IUser[] = [];
+      const primaryContact2: IContact[] = [];
       for (const primaryId of primaryIdsSet) {
         const contact = await UserModel.findById(primaryId);
         if (contact != null)

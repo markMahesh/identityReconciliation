@@ -6,7 +6,7 @@ export enum LinkedPrecedence{
   SECONDRAY = 'secondary'
 }
 
-export interface IUser {
+export interface IContact {
     id: number;
     phoneNumber?: string;
     email?: string;
@@ -21,25 +21,25 @@ export class UserModel {
 
   private static tableName = "contact";
 
-  static async findByEmail(email: string): Promise<IUser | null> {
+  static async findByEmail(email: string): Promise<IContact | null> {
     const [rows]: [RowDataPacket[], any] = await db.query(`SELECT * FROM ${this.tableName} WHERE email = ?`, [email]);
-    return rows.length > 0 ? (rows[0] as IUser) : null;
+    return rows.length > 0 ? (rows[0] as IContact) : null;
   }
 
-  static async findAllMatchingContacts(phoneNumber?: string, email?: string): Promise<IUser[]> {
+  static async findAllMatchingContacts(phoneNumber?: string, email?: string): Promise<IContact[]> {
     const [rows]: [RowDataPacket[], any] = await db.query(
       `SELECT * FROM ${this.tableName} WHERE email = ? OR phoneNumber = ?`,
       [email, phoneNumber]
     );
-    return rows as IUser[];
+    return rows as IContact[];
   }
 
-  static async findByLinkedId(linkedId: number): Promise<IUser[]> {
+  static async findByLinkedId(linkedId: number): Promise<IContact[]> {
     const [rows]: [RowDataPacket[], any] = await db.query(
       `SELECT * FROM ${this.tableName} WHERE linkedId = ?`,
       [linkedId]
     );
-    return rows as IUser[];
+    return rows as IContact[];
   }
 
   static async updateLinkedId(oldLinkedId: number, newLinkedId: number): Promise<void> {
@@ -49,21 +49,21 @@ export class UserModel {
     );
   }
 
-  static async findById(id: number): Promise<IUser | null> {
+  static async findById(id: number): Promise<IContact | null> {
     const [rows]: [RowDataPacket[], any] = await db.query(
       `SELECT * FROM ${this.tableName} WHERE id = ?`,
       [id]
     );
-    return rows.length > 0 ? (rows[0] as IUser) : null;
+    return rows.length > 0 ? (rows[0] as IContact) : null;
   }
 
 
-  static async findAllByIdOrLinkedId(id: number): Promise<IUser[]> {
+  static async findAllByIdOrLinkedId(id: number): Promise<IContact[]> {
     const [rows]: [RowDataPacket[], any] = await db.query(
       `SELECT * FROM ${this.tableName} WHERE linkedId = ? ORDER BY createdAt ASC`,
       [id]
     );
-    return rows as IUser[];
+    return rows as IContact[];
   }
 
   static async createUser(phoneNumber?: string, email?: string, linkedId?: number, linkPrecedence?: string): Promise<any> {

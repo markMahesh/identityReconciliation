@@ -3,7 +3,6 @@ import { UserService } from '../services/userService';
 
 export const identifyUser = async (req: Request, res: Response): Promise<void> => {
   try {
-    console.log("/identify called")
     const { phoneNumber, email } = req.body;
    
     if (isInvalid(phoneNumber) && isInvalid(email)) {
