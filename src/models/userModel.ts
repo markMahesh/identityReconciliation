@@ -19,7 +19,7 @@ export interface IUser {
 
 export class UserModel {
 
-  private static tableName = "abcdef";
+  private static tableName = "contact";
 
   static async findByEmail(email: string): Promise<IUser | null> {
     const [rows]: [RowDataPacket[], any] = await db.query(`SELECT * FROM ${this.tableName} WHERE email = ?`, [email]);
