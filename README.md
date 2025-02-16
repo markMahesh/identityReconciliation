@@ -2,10 +2,23 @@
 microservice for bitespeed
 
 # Endpoint
-Endpoint:[ https://bitespeedidentityreconciliation.onrender.com/identify](https://identityreconciliation-v4l6.onrender.com/identify)
-Curl command to hit the api: `curl --location 'https://bitespeedidentityreconciliation.onrender.com/identify' \
+service health check api: GET https://identityreconciliation-v4l6.onrender.com 
+                    resp: Hello, world!
+
+identity endpoint:[ https://bitespeedidentityreconciliation.onrender.com/identify](https://identityreconciliation-v4l6.onrender.com/identify)
+                ReqBody: ```{
+    "phoneNumber": "2",
+    "email": "1"
+}```
+                Response: 
+```
+{"contact":{"primaryContatctId":5,"emails":["1"],"phoneNumbers":["2"],"secondaryContactIds":[]}}
+```
+                    
+Curl command to hit the api: `curl --location 'https://identityreconciliation-v4l6.onrender.com/identify' \
 --header 'Content-Type: application/json' \
---data-raw '{
-    "email": "mcfly@hillvalley.edu",
-    "phoneNumber": null
+--data '{
+    "phoneNumber": "2",
+    "email": "1"
 }'`
+
